@@ -2,14 +2,12 @@ module Api
   module V1
     class CampaignsController < Api::V1::BaseController
       def index
-        campaigns = Campaign.all
+        campaigns = current_user.campaigns
         render json: campaigns, status: :ok, each_serializer: CampaignSerializer
       end
 
       def create
-        # authorize :campaign, :create?
-
-        campaign = Campaign.new(campaign_params)
+        campaign = current_user.campaigns.new(campaign_params)
 
         if campaign.save
           render json: campaign, status: :created, serializer: CampaignSerializer
@@ -19,7 +17,7 @@ module Api
       end
 
       def update
-        # authorize :campaign, :update?
+        authorize :campaign, :update?
 
         campaign = Campaign.find(params[:id])
 
@@ -31,7 +29,7 @@ module Api
       end
 
       def destroy
-        # authorize :campaign, :destroy?
+        authorize :campaign, :destroy?
 
         campaign = Campaign.find(params[:id])
 
@@ -45,7 +43,7 @@ module Api
       private
 
       def campaign_params
-        params.require(:campaign).permit(:name, :description, :user_id)
+        params.require(:campaign).permit(:name, :description)
       end
     end
   end
