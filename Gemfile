@@ -45,3 +45,5 @@ gem "devise", "~> 4.9"
 
 gem "doorkeeper"
 gem "active_model_serializers", "~> 0.10.0"
+
+gem "pundit", "~> 2.4"
