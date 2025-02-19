@@ -2,7 +2,7 @@ module Api
   module V1
     class CampaignsController < Api::V1::BaseController
       def index
-        campaigns = current_user.campaigns
+        campaigns = policy_scope(Campaign)
         render json: campaigns, status: :ok, each_serializer: CampaignSerializer
       end
 
@@ -17,9 +17,7 @@ module Api
       end
 
       def update
-        authorize :campaign, :update?
-
-        campaign = Campaign.find(params[:id])
+        campaign = policy_scope(Campaign).find(params[:id])
 
         if campaign.update(campaign_params)
           render json: campaign, status: :ok, serializer: CampaignSerializer
@@ -29,9 +27,7 @@ module Api
       end
 
       def destroy
-        authorize :campaign, :destroy?
-
-        campaign = Campaign.find(params[:id])
+        campaign = policy_scope(Campaign).find(params[:id])
 
         if campaign.destroy
           head :no_content
