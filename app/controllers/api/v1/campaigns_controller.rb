@@ -17,7 +17,8 @@ module Api
       end
 
       def update
-        campaign = policy_scope(Campaign).find(params[:id])
+        campaign = Campaign.find(params[:id])
+        authorize campaign
 
         if campaign.update(campaign_params)
           render json: campaign, status: :ok, serializer: CampaignSerializer
@@ -27,7 +28,8 @@ module Api
       end
 
       def destroy
-        campaign = policy_scope(Campaign).find(params[:id])
+        campaign = Campaign.find(params[:id])
+        authorize campaign
 
         if campaign.destroy
           head :no_content

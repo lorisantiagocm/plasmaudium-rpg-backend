@@ -9,9 +9,9 @@ module Api
         head :not_found
       end
 
-      # rescue_from Pundit::NotAuthorizedError do |_e|
-      #   head :forbidden
-      # end
+      rescue_from Pundit::NotAuthorizedError do |_e|
+        head :forbidden
+      end
 
       def render_errors(errors)
         render json: { errors: errors }, status: :bad_request
