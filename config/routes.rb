@@ -12,7 +12,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :campaigns
+      resources :campaigns do
+        resources :scenes, module: "campaigns"
+      end
     end
   end
 end
